@@ -3,7 +3,7 @@ resource "aws_lb" "app_lb" {
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.lb_sg.id]
-  subnets            = ["subnet-12345678", "subnet-87654321"]
+  subnets            = data.aws_subnets.default_vpc_subnets.ids
 
   enable_deletion_protection = false
 }
@@ -11,7 +11,7 @@ resource "aws_lb" "app_lb" {
 resource "aws_security_group" "lb_sg" {
   name        = "lb_sg"
   description = "Security group for ALB"
-  vpc_id      = "vpc-12345678"
+  vpc_id      = data.aws_vpc.default.id
 
   ingress {
     from_port   = 80
